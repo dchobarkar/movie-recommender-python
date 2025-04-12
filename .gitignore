@@ -177,3 +177,6 @@ cython_debug/
 *.ipynb_checkpoints
 data/*.csv
 .venv/
+web/venv/
+web/__pycache__/
+*.pkl
