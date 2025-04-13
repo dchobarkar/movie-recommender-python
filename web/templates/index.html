@@ -1,16 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Movie Recommender</title>
+    <meta charset="UTF-8" />
+    <title>Movie Recommendation Interface</title>
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        margin: 50px;
+        line-height: 1.6;
+      }
+      label,
+      input,
+      button {
+        font-size: 1.1em;
+        margin: 8px 0;
+      }
+      input {
+        width: 300px;
+        padding: 8px;
+      }
+      button {
+        cursor: pointer;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+      }
+      button:hover {
+        background-color: #0056b3;
+      }
+      .results {
+        margin-top: 30px;
+        background-color: #f9f9f9;
+        padding: 15px;
+        border-radius: 5px;
+      }
+    </style>
+    <script>
+      async function getRecommendations(event) {
+        event.preventDefault();
+        const userId = document.getElementById("userId").value;
+        const response = await fetch(`/api/recommend?userId=${userId}`);
+        const data = await response.json();
+        const output = document.querySelector(".results");
+        output.innerHTML =
+          "<h2>Recommended Movies</h2><ul>" +
+          data.recommendations.map((rec) => `<li>${rec}</li>`).join("") +
+          "</ul>";
+      }
+    </script>
   </head>
-
   <body>
-    <h1>Movie Recommendation System</h1>
-
-    <form action="/recommend" method="post">
-      <label for="userId">User ID:</label>
-      <input type="text" name="userId" required />
-      <input type="submit" value="Get Recommendations" />
+    <h1>Intelligent Movie Recommendation</h1>
+    <form onsubmit="getRecommendations(event)">
+      <label for="userId">User Identifier:</label>
+      <input type="text" id="userId" name="userId" required />
+      <button type="submit">Generate</button>
     </form>
+
+    <div class="results">
+      <!-- Backend-rendered recommendations injected here -->
+    </div>
   </body>
 </html>
