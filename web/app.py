@@ -25,16 +25,18 @@ def recommend():
     user_id = request.form["userId"]
     try:
         user_id = int(user_id)
-        recommendations = model.get(user_id, [])  # Simulated logic
+        recommendations = top_n.get(user_id, [])
         return render_template("results.html", recommendations=recommendations)
     except Exception as e:
         return render_template("results.html", recommendations=[], error=str(e))
 
-@app.route("/api/recommend", methods=["GET"])
+@app.route('/api/recommend', methods=['GET'])
 def api_recommend():
-    user_id = request.args.get("userId")
-    recommendations = model.get(user_id, [])  # Simulated logic
-    return jsonify(recommendations=recommendations)
+    user_id = int(request.args.get("userId"))
+    recommendations = top_n.get(user_id, [])
+    return jsonify(recommendations=[
+        {"movieId": mid, "score": round(score, 2)} for mid, score in recommendations
+    ])
 
 if __name__ == '__main__':
     import os
