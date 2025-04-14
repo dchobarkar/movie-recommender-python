@@ -1,27 +1,54 @@
-# 🎬 Movie Recommender System
+# 🎬 Intelligent Movie Recommender System
 
-This project is a hands-on implementation of a movie recommender system using collaborative filtering (SVD via the `surprise` library) and content-based filtering (TF-IDF + cosine similarity). It includes a lightweight Flask-based web interface for user interaction.
+A personalized movie recommendation engine powered by collaborative filtering using **SVD** (via `surprise` library) and a lightweight Flask frontend. Built as a hands-on AI project and synced with the blog:  
+👉 [Read the full article](https://dchobarkar.github.io/2024/09/21/hands-on-build-a-movie-recommender-in-python.html)
 
-## 🚀 Features
+## 🚀 Live Demo
 
-- 📊 Data preprocessing and EDA (MovieLens 100K)
-- 🤖 Collaborative Filtering using SVD
-- 🧠 Content-Based Filtering via TF-IDF on genres
-- 🎯 Top-N Recommendation Generator
-- 📈 Evaluation Metrics: RMSE, MAE, Precision@k, Recall@k
-- 🌐 Web app with HTML form and API endpoint
+👉 [Try it on Render](https://movie-recommender-python-ehrd.onrender.com)
 
-## 🗂 Project Structure
+> Enter a `User ID` (like `1`, `10`, or `20`) and get a list of top-rated movie recommendations.
+
+## 📦 Features
+
+- 📊 Collaborative filtering with matrix factorization (SVD)
+- 🎯 Predicts top-N movies per user with scores
+- 🧠 Smart content-based fallback for title mapping
+- 🌐 Deployed on Render with live web interface
+- 🧪 Fully blog-synced — write as you build!
+
+## 🛠️ Tech Stack
+
+- Python 3.11
+- Flask
+- scikit-surprise
+- pandas / NumPy / Matplotlib
+- HTML / CSS (Jinja templates)
+- Render (cloud deployment)
+
+## 📁 Project Structure
 
 ```
 movie-recommender-python/
-├── data/                    # ratings.csv (MovieLens dataset)
-├── notebooks/               # EDA and analysis notebooks
-├── src/                     # Modular recommender logic
-├── web/                     # Flask app and HTML templates
-├── requirements.txt         # All dependencies
+├── data/                   # ratings.csv, movies.csv
+├── notebooks/              # EDA and preprocessing notebooks
+├── src/                    # Modular Python scripts
+├── web/                    # Flask app + templates
+│   ├── app.py
+│   └── templates/
+├── requirements.txt
 └── README.md
 ```
+
+## 🧪 Sample User IDs
+
+Try the following user IDs to explore recommendations:
+
+- `1`
+- `10`
+- `20`
+- `50`
+- `75`
 
 ## ⚙️ How to Run
 
@@ -50,6 +77,12 @@ curl http://127.0.0.1:5000/api/recommend?userId=1
 
 MovieLens 100K  
 [https://grouplens.org/datasets/movielens/100k](https://grouplens.org/datasets/movielens/100k)
+
+## 📝 License
+
+MIT License
+
+Made with ❤️ by [Darshan Jitendra Chobarkar](https://darshanwebdev.com)
 
 ## 💡 Author
 
