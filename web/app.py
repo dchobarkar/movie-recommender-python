@@ -17,6 +17,7 @@ ratings = pd.read_csv("data/ratings.csv")
 movies_df = pd.read_csv("data/movies.csv")
 movie_id_to_title = dict(zip(movies_df["movieId"], movies_df["title"]))
 
+# Train model
 model, predictions = train_svd_model(ratings)
 top_n = get_top_n(predictions, n=5)
 
@@ -38,16 +39,18 @@ def recommend():
     except Exception as e:
         return render_template("results.html", recommendations=[], error=str(e))
 
-@app.route('/api/recommend', methods=['GET'])
+@app.route("/api/recommend", methods=["GET"])
 def api_recommend():
     user_id = int(request.args.get("userId"))
     recommendations = top_n.get(user_id, [])
     return jsonify(recommendations=[
-        {"movieTitle": movie_id_to_title.get(mid, f"Movie {mid}"), "score": round(score, 2)}
+        {
+            "movieTitle": movie_id_to_title.get(mid, f"Movie ID {mid} (Title Not Found)"),
+            "score": round(score, 2)
+        }
         for mid, score in recommendations
     ])
 
-if __name__ == '__main__':
-    import os
+if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=True, host="0.0.0.0", port=port)
