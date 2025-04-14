@@ -2,29 +2,28 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+
     <title>Movie Recommendation Interface</title>
+
     <style>
       body {
         font-family: "Segoe UI", sans-serif;
         margin: 50px;
         line-height: 1.6;
       }
-      label,
-      input,
-      button {
-        font-size: 1.1em;
-        margin: 8px 0;
-      }
       input {
         width: 300px;
         padding: 8px;
+        font-size: 1.1em;
       }
       button {
+        font-size: 1.1em;
         cursor: pointer;
         background-color: #007bff;
         color: white;
         border: none;
         padding: 10px 15px;
+        margin-top: 8px;
       }
       button:hover {
         background-color: #0056b3;
@@ -45,19 +44,24 @@
         const output = document.querySelector(".results");
         output.innerHTML =
           "<h2>Recommended Movies</h2><ul>" +
-          data.recommendations.map((rec) => `<li>${rec}</li>`).join("") +
+          data.recommendations
+            .map((rec) => `<li>${rec.movieId} — Score: ${rec.score}</li>`)
+            .join("") +
           "</ul>";
       }
     </script>
   </head>
-  <body>
-    <h1>Intelligent Movie Recommendation</h1>
-    <form onsubmit="getRecommendations(event)">
-      <label for="userId">User Identifier:</label>
-      <input type="text" id="userId" name="userId" required />
-      <button type="submit">Generate</button>
-    </form>
 
+  <body>
+    <h1>🎬 Intelligent Movie Recommender</h1>
+
+    <form onsubmit="getRecommendations(event)">
+      <label for="userId">Enter User ID:</label><br />
+      <input type="text" id="userId" name="userId" required />
+      <br />
+
+      <button type="submit">Generate Recommendations</button>
+    </form>
     <div class="results">
       <!-- Backend-rendered recommendations injected here -->
     </div>

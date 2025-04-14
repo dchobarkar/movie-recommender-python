@@ -2,16 +2,32 @@
 <html>
   <head>
     <title>Recommendations</title>
+
+    <style>
+      body {
+        font-family: "Segoe UI", sans-serif;
+        margin: 50px;
+        line-height: 1.6;
+      }
+      li {
+        margin: 6px 0;
+      }
+    </style>
   </head>
 
   <body>
-    <h1>Your Recommendations</h1>
+    <h1>🎥 Your Movie Recommendations</h1>
 
+    {% if recommendations %}
     <ul>
-      {% for rec in recommendations %}
-      <li>{{ rec }}</li>
+      {% for movie in recommendations %}
+      <li>Movie ID: {{ movie[0] }} — Score: {{ "%.2f"|format(movie[1]) }}</li>
       {% endfor %}
     </ul>
-    <a href="/">Back</a>
+    {% else %}
+    <p>No recommendations found for this user.</p>
+    {% endif %}
+
+    <a href="/">⬅ Back</a>
   </body>
 </html>
