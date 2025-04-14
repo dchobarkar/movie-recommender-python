@@ -21,7 +21,7 @@
     {% if recommendations %}
     <ul>
       {% for movie in recommendations %}
-      <li>Movie ID: {{ movie[0] }} — Score: {{ "%.2f"|format(movie[1]) }}</li>
+      <li>{{ movie[0] }} — Score: {{ "%.2f"|format(movie[1]) }}</li>
       {% endfor %}
     </ul>
     {% else %}

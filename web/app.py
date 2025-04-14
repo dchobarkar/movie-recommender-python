@@ -11,8 +11,12 @@ from src.topn_recommendation import get_top_n
 
 app = Flask(__name__)
 
-# Load data
+# Load ratings
 ratings = pd.read_csv("data/ratings.csv")
+# Load movie metadata
+movies_df = pd.read_csv("data/movies.csv")
+movie_id_to_title = dict(zip(movies_df["movieId"], movies_df["title"]))
+
 model, predictions = train_svd_model(ratings)
 top_n = get_top_n(predictions, n=5)
 
@@ -26,7 +30,11 @@ def recommend():
     try:
         user_id = int(user_id)
         recommendations = top_n.get(user_id, [])
-        return render_template("results.html", recommendations=recommendations)
+        recommendations_with_titles = [
+            (movie_id_to_title.get(movie_id, f"Movie {movie_id}"), round(score, 2))
+            for movie_id, score in recommendations
+        ]
+        return render_template("results.html", recommendations=recommendations_with_titles)
     except Exception as e:
         return render_template("results.html", recommendations=[], error=str(e))
 
@@ -35,7 +43,8 @@ def api_recommend():
     user_id = int(request.args.get("userId"))
     recommendations = top_n.get(user_id, [])
     return jsonify(recommendations=[
-        {"movieId": mid, "score": round(score, 2)} for mid, score in recommendations
+        {"movieTitle": movie_id_to_title.get(mid, f"Movie {mid}"), "score": round(score, 2)}
+        for mid, score in recommendations
     ])
 
 if __name__ == '__main__':
