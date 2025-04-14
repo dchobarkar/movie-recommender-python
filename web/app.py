@@ -1,10 +1,16 @@
 from flask import Flask, request, jsonify, render_template
-import pickle
+import pandas as pd
+from src.data_loader import load_movielens_data
+from src.preprocessing import filter_data
+from src.collaborative_filtering import train_svd_model
+from src.topn_recommendation import get_top_n
 
 app = Flask(__name__)
 
-# Load model
-model = pickle.load(open("model/model.pkl", "rb"))
+# Load data
+ratings = pd.read_csv("data/ratings.csv")
+model, predictions = train_svd_model(ratings)
+top_n = get_top_n(predictions, n=5)
 
 @app.route("/")
 def index():
@@ -13,8 +19,12 @@ def index():
 @app.route("/recommend", methods=["POST"])
 def recommend():
     user_id = request.form["userId"]
-    recommendations = model.get(user_id, [])  # Simulated logic
-    return render_template("results.html", recommendations=recommendations)
+    try:
+        user_id = int(user_id)
+        recommendations = model.get(user_id, [])  # Simulated logic
+        return render_template("results.html", recommendations=recommendations)
+    except Exception as e:
+        return render_template("results.html", recommendations=[], error=str(e))
 
 @app.route("/api/recommend", methods=["GET"])
 def api_recommend():
